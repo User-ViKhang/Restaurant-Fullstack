@@ -1,0 +1,38 @@
+<div class="container" style="padding: 100px">
+  <form #form="ngForm" autocomplete="off" class="d-flex justify-content-center" (submit)="onSubmit(form)">
+    <div class="col-md-9">
+      <input type="hidden" name="ItemName" #ItemName="ngModel" [(ngModel)]="formData.ItemName" />
+      <div class="form-group">
+        <label for="">Food Item</label>
+        <select [class.is-invalid]="!isValid && formData.ItemId == 0" class="form-select" name="ItemId" #ItemId="ngModel" [(ngModel)]="formData.ItemId" (change)="changePrice($event.target)">
+          <option value="0">-- Select --</option>
+          <option [value]="item.id" *ngFor="let item of itemList">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Price (readonly)</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">$</div>
+          </div>
+          <input name="Price" #Price="ngModel" [(ngModel)]="formData.Price" type="text" class="form-control" readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Quatity</label>
+        <div class="input-group">
+          <input [class.is-invalid]="!isValid && formData.Quality == 0" (keyup)="updateTotal()" type="number" name="Quality" #Quality="ngModel" [(ngModel)]="formData.Quality" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Total (readonly)</label>
+        <div class="input-group">
+          <input type="number" name="Total" #Total="ngModel" [(ngModel)]="formData.Total" class="form-control" readonly>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-2">Generate</button>
+      <button [mat-dialog-close] class="btn btn-outline-danger mt-2 " style="margin-left: 5px;">Close</button>
+    </div>
+  </form>
+
+</div>

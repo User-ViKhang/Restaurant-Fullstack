@@ -1,0 +1,72 @@
+<form #form="ngForm" autocomplete="off" (submit)="onCreateOrder()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="">Order No</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">#</div>
+          </div>
+          <input name="OrderNo" #OrderNo="ngModel" [(ngModel)]="_order.formData.OrderNo"  type="text" class="form-control" readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Customer</label>
+        <select class="form-select" name="CustomerId" #Customer="ngModel" [(ngModel)]="_order.formData.CustomerId">
+          <option value="0">-- Select --</option>
+          <option *ngFor="let cus of customerList" [value]="cus.id">{{cus.name}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Pay Method</label>
+        <select class="form-select" name="PMethod" #PMethod="ngModel" [(ngModel)]="_order.formData.PMethod">
+          <option value="">-- Select --</option>
+          <option value="Cash">Cash</option>
+          <option value="Card">Card</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Grand Total</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">$</div>
+          </div>
+          <input name="GTotal" #GTotal="ngModel" [(ngModel)]="_order.formData.GTotal"  type="text" class="form-control" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="btn btn-success mt-2" (click)="AddOrEdit(null,_order.formData.Id)">Add item</div>
+    <table *ngIf="_order.orderItems.length > 0" class="table table-bordered mt-3">
+      <thead class="thead-light">
+        <tr class="text-center">
+          <th>
+            Item
+          </th>
+          <th>Price</th>
+          <th>Quatity</th>
+          <th>Total</th>
+          <th *ngIf="_order.orderItems.length >  0"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="_order.orderItems.length == 0">
+          <td class="text-center" style="font-style:italic;" colspan="5">No item</td>
+        </tr>
+        <tr *ngFor="let item of _order.orderItems; let i=index">
+          <td>{{item.ItemName}}</td>
+          <td>{{item.Price}}</td>
+          <td>{{item.Quality}}</td>
+          <td>{{item.Total}}</td>
+          <td class="col-md-2 text-center">
+            <button class="btn btn-info" (click)="AddOrEdit(i,_order.formData.Id)"><i class="fa-solid fa-pen-to-square" style="color: white;"></i></button>
+            <button (click)="onDelete(item.ItemId, i)" style="margin-left: 5px" class="btn btn-danger"><i class="fa-solid fa-trash" style="color: white"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-group mt-2 ml-0">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+<button routerLink="/order/edit/2">rr</button>
